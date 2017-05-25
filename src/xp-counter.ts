@@ -51,14 +51,24 @@ export class XpCounter {
 
     private onTextDocumentChanged(event: TextDocumentChangeEvent): void {
         let changeCount: number = 0;
+        let containsLineBreaks: boolean = false;
         for (let change of event.contentChanges) {
-            changeCount += this.determineChangeCount(change.range);
+            if (change.text.indexOf("\n") !== -1) {
+                //if line breaks found in text, assume it is a reformatting of a text or JSON object
+                containsLineBreaks = true;
+            } else {
+                changeCount += this.determineChangeCount(change.range);
+            }
         }
-        this.updateXpCount(event.document, changeCount);
+        if (containsLineBreaks) {
+            this.updateXpCount(event.document, 1);
+        } else {
+            this.updateXpCount(event.document, changeCount);
+        }
     }
 
     private determineChangeCount(range: Range): number {
-        if (range === null || range === undefined ) {
+        if (range === null || range === undefined) {
             return 0;
         }
         if (range.start.line === range.end.line) {
