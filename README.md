@@ -18,6 +18,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.0.7
+
+Merged a PR from sharpred to count formatting a large JSON-object only as 1 XP.
+
 ### 1.0.6
 
 Changed to return just the langId if not found in the mapped languages names.

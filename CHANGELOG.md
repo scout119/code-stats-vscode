@@ -6,6 +6,13 @@ All notable changes to the "code-stats-vscode" extension will be documented in t
 
 ### Changed
 
+
+
+## [1.0.7] - 2017-05-29
+### Changed
+
+Merged a PR from sharpred to count formatting a large JSON-file only as 1 XP.
+
 ## [1.0.6] - 2017-03-24
 ### Changed
 Changed the plugin to default to just langId if the langId is not found in the mapped language names.

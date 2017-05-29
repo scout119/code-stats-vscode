@@ -2,7 +2,7 @@
     "name": "code-stats-vscode",
     "displayName": "Code::Stats",
     "description": "Code::Stats package for Visual Studio Code",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "publisher": "juha-ristolainen",
     "icon": "logo.png",
     "repository": {
