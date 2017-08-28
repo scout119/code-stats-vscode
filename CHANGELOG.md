@@ -6,6 +6,10 @@ All notable changes to the "code-stats-vscode" extension will be documented in t
 
 ### Changed
 
+## [1.0.8] - 2017-08-28
+### Changed
+
+Merged a PR from nicd to refactor the counting logic.
 
 
 ## [1.0.7] - 2017-05-29

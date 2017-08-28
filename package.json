@@ -2,7 +2,7 @@
     "name": "code-stats-vscode",
     "displayName": "Code::Stats",
     "description": "Code::Stats package for Visual Studio Code",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "publisher": "juha-ristolainen",
     "icon": "logo.png",
     "repository": {
@@ -48,13 +48,13 @@
         "test": "node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.0",
+        "typescript": "^2.1.5",
+        "vscode": "^1.1.0",
         "mocha": "^2.3.3",
         "@types/node": "^6.0.40",
         "@types/mocha": "^2.2.32"
     },
     "dependencies": {
-        "axios": "0.15.3"
+        "axios": "0.16.2"
     }
 }

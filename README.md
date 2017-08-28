@@ -18,6 +18,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.0.8
+
+Merged a PR from nicd to refactor the counting logic.
+
 ### 1.0.7
 
 Merged a PR from sharpred to count formatting a large JSON-object only as 1 XP.
