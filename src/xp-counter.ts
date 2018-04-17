@@ -3,6 +3,12 @@ import {
   Disposable,
   workspace,
   window,
+  Uri,
+  ViewColumn,
+  commands,
+  TextDocumentContentProvider,
+  Event,
+  CancellationToken,
   StatusBarItem,
   TextDocument,
   StatusBarAlignment,
@@ -12,6 +18,13 @@ import {
 } from "vscode";
 import { Pulse } from "./pulse";
 import { CodeStatsAPI } from "./code-stats-api";
+
+class HtmlProvider implements TextDocumentContentProvider {
+  onDidChange?: Event<Uri>;
+  provideTextDocumentContent(uri: Uri, token: CancellationToken): string | Thenable<string> {
+    return "Nice HTML view of CS Stats for user";
+  }
+}
 
 export class XpCounter {
   private combinedDisposable: Disposable;
@@ -24,6 +37,7 @@ export class XpCounter {
 
   // wait 10s after each change in the document before sending an update
   private UPDATE_DELAY = 10000;
+
 
   constructor() {
     this.pulse = new Pulse();
@@ -38,11 +52,24 @@ export class XpCounter {
 
     this.initAPI();
 
+    let subscriptions: Disposable[] = [];
+
     if (!this.statusBarItem) {
       this.statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
+      this.statusBarItem.command = "code-stats.profile";
     }
 
-    let subscriptions: Disposable[] = [];
+    let provider = new HtmlProvider();
+    let registration = workspace.registerTextDocumentContentProvider('code-stats', provider);
+  
+    subscriptions.push(registration);
+
+    let previewUri = Uri.parse('code-stats://profile')
+
+    subscriptions.push(commands.registerCommand("code-stats.profile", () => {
+      commands.executeCommand('vscode.previewHtml', previewUri, ViewColumn.Two, 'Code::Stats Profile');
+    } ) );
+    
     workspace.onDidChangeTextDocument(
       this.onTextDocumentChanged,
       this,
