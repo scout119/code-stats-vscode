@@ -22,7 +22,52 @@ import { CodeStatsAPI } from "./code-stats-api";
 class HtmlProvider implements TextDocumentContentProvider {
   onDidChange?: Event<Uri>;
   provideTextDocumentContent(uri: Uri, token: CancellationToken): string | Thenable<string> {
-    return "Nice HTML view of CS Stats for user";
+    return `
+    <style>
+      .tile {
+        display: block;
+        float: left;
+        width: 100px;
+    
+        min-height: 100px;
+        background: red;
+        margin: 2px;
+        border-radius: 5%;
+        border: 10px;
+        border-color: black;
+        
+        padding: 10px;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    
+    .tile:nth-child(even) {
+        background: blue;
+    }    
+    </style>
+    <div class="tile">C#</div>
+    <div class="tile">Elixir</div>
+    <div class="tile">TypeScript</div>
+    <div class="tile">Rust</div>
+    <div class="tile">Html</div>
+    <div class="tile">PlainText</div>
+    <div class="tile">C++</div>
+    <div class="tile">VB</div>
+    <div class="tile">F#</div>    
+    <div class="tile">C#</div>
+    <div class="tile">Elixir</div>
+    <div class="tile">TypeScript</div>
+    <div class="tile">Rust</div>
+    <div class="tile">Html</div>
+    <div class="tile">PlainText</div>
+    <div class="tile">C++</div>
+    <div class="tile">VB</div>
+    <div class="tile">F#</div>    
+    `;
   }
 }
 

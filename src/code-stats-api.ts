@@ -5,6 +5,7 @@ import * as axios from "axios";
 export class CodeStatsAPI {
   private API_KEY = null;
   private UPDATE_URL = "https://codestats.net/api/my/pulses";
+  private PROFILE_URL = "https://codestats.net/api/users";
   private axios = null;
 
   constructor(apiKey: string, apiURL: string) {
