@@ -24,32 +24,35 @@ class HtmlProvider implements TextDocumentContentProvider {
   provideTextDocumentContent(uri: Uri, token: CancellationToken): string | Thenable<string> {
     return `
     <style>
-      .tile {
-        display: block;
-        float: left;
-        width: 100px;
-    
-        min-height: 100px;
-        background: red;
-        margin: 2px;
-        border-radius: 5%;
-        border: 10px;
-        border-color: black;
-        
-        padding: 10px;
-        color: white;
-        font-weight: bold;
-        text-align: center;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-    
-    .tile:nth-child(even) {
-        background: blue;
-    }    
+    .tile {
+      float: left;
+      width: 7rem;
+      height: 7rem;
+      padding-top: 2.5rem;
+      text-align: center;
+      background: gray;
+      margin: 0.1rem;
+      border-radius: 50%;
+      border-style: solid 2px;
+      border-color: black;
+     
+      color: #ddca7e;
+      font-size: 0.8em;      
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+  }
+
+  .tile span {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  .tile:nth-child(even) {
+      background: gray;
+  }    
     </style>
-    <div class="tile">C#</div>
+    <div class="tile">C#<span style="display:block;">10</span></div>
     <div class="tile">Elixir</div>
     <div class="tile">TypeScript</div>
     <div class="tile">Rust</div>
