@@ -34,8 +34,13 @@
                 },
                 "codestats.apiurl": {
                     "type": "string",
-                    "default": "https://codestats.net/api/my/pulses",
+                    "default": "https://codestats.net/api/",
                     "description": "Code::Stats API URL. Only change if you know what you are doing!"
+                },
+                "codestats.username": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Code::Stats User Name"
                 }
             }
         },

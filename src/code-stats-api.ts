@@ -4,13 +4,16 @@ import * as axios from "axios";
 
 export class CodeStatsAPI {
   private API_KEY = null;
-  private UPDATE_URL = "https://codestats.net/api/my/pulses";
-  private PROFILE_URL = "https://codestats.net/api/users";
+  private USER_NAME = null;
+  private UPDATE_URL = "https://codestats.net/api/";
+  //private PROFILE_URL = "https://codestats.net/api/users";
   private axios = null;
 
-  constructor(apiKey: string, apiURL: string) {
+  constructor(apiKey: string, apiURL: string, userName: string) {
     this.API_KEY = apiKey;
     this.UPDATE_URL = apiURL;
+    this.USER_NAME = userName;
+
     if (
       this.API_KEY === null ||
       this.API_KEY === undefined ||
@@ -48,12 +51,24 @@ export class CodeStatsAPI {
     console.log(`JSON: ${json}`);
 
     return this.axios
-      .post(this.UPDATE_URL, json)
+      .post("my/pulses", json)
       .then(response => {
         console.log(response);
       })
       .then(() => {
         pulse.reset();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  public getProfile(): axios.AxiosPromise {
+    return this.axios
+      .get(`users/${this.USER_NAME}`)
+      .then(response => {
+        console.log("Got Response\n");
+        return response.data;
       })
       .catch(error => {
         console.log(error);

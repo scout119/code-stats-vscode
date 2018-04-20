@@ -6,7 +6,6 @@ import {
   Uri,
   ViewColumn,
   commands,
-  TextDocumentContentProvider,
   Event,
   CancellationToken,
   StatusBarItem,
@@ -18,61 +17,7 @@ import {
 } from "vscode";
 import { Pulse } from "./pulse";
 import { CodeStatsAPI } from "./code-stats-api";
-
-class HtmlProvider implements TextDocumentContentProvider {
-  onDidChange?: Event<Uri>;
-  provideTextDocumentContent(uri: Uri, token: CancellationToken): string | Thenable<string> {
-    return `
-    <style>
-    .tile {
-      float: left;
-      width: 7rem;
-      height: 7rem;
-      padding-top: 2.5rem;
-      text-align: center;
-      background: gray;
-      margin: 0.1rem;
-      border-radius: 50%;
-      border-style: solid 2px;
-      border-color: black;
-     
-      color: #ddca7e;
-      font-size: 0.8em;      
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-  }
-
-  .tile span {
-    font-weight: bold;
-    font-size: 1.2em;
-  }
-  
-  .tile:nth-child(even) {
-      background: gray;
-  }    
-    </style>
-    <div class="tile">C#<span style="display:block;">10</span></div>
-    <div class="tile">Elixir</div>
-    <div class="tile">TypeScript</div>
-    <div class="tile">Rust</div>
-    <div class="tile">Html</div>
-    <div class="tile">PlainText</div>
-    <div class="tile">C++</div>
-    <div class="tile">VB</div>
-    <div class="tile">F#</div>    
-    <div class="tile">C#</div>
-    <div class="tile">Elixir</div>
-    <div class="tile">TypeScript</div>
-    <div class="tile">Rust</div>
-    <div class="tile">Html</div>
-    <div class="tile">PlainText</div>
-    <div class="tile">C++</div>
-    <div class="tile">VB</div>
-    <div class="tile">F#</div>    
-    `;
-  }
-}
+import { ProfileHtmlProvider } from "./profileHtmlProvider";
 
 export class XpCounter {
   private combinedDisposable: Disposable;
@@ -107,7 +52,8 @@ export class XpCounter {
       this.statusBarItem.command = "code-stats.profile";
     }
 
-    let provider = new HtmlProvider();
+    let provider = new ProfileHtmlProvider(this.api);
+
     let registration = workspace.registerTextDocumentContentProvider('code-stats', provider);
   
     subscriptions.push(registration);
@@ -190,12 +136,16 @@ export class XpCounter {
 
     const apiKey: string = config.get("apikey");
     const apiURL: string = config.get("apiurl");
+    const userName: string = config.get("username");
+    
     console.log(
-      "code-stats-vscode setting up with API URL",
-      apiURL,
-      "and key",
-      apiKey
+      `code-stats-vscode setting up:
+      API URL: ${apiURL}
+      NAME:    ${userName}      
+      KEY:     ${apiKey}
+      `
     );
-    this.api = new CodeStatsAPI(apiKey, apiURL);
+
+    this.api = new CodeStatsAPI(apiKey, apiURL, userName);
   }
 }
