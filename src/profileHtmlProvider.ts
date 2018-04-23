@@ -7,8 +7,11 @@ import {
   ExtensionContext
 } from "vscode";
 import * as path from "path";
+import * as fs from 'fs';
 
 import { CodeStatsAPI } from "./code-stats-api";
+
+import template = require('lodash.template');
 
 export class ProfileHtmlProvider implements TextDocumentContentProvider {
   onDidChange?: Event<Uri>;
@@ -54,7 +57,7 @@ export class ProfileHtmlProvider implements TextDocumentContentProvider {
       return ret;
     }
 
-    function getHeader(profile: any): string {
+    function getHeader(context: ExtensionContext, profile: any): string {
 
       let userName = profile["user"];
       let totalXp = profile["total_xp"];
@@ -67,11 +70,20 @@ export class ProfileHtmlProvider implements TextDocumentContentProvider {
 
     return this.api.getProfile().then(profile => {
 
-      //console.log(profile);
+      // let htmlTemplate = fs.readFileSync(this.context.asAbsolutePath("assets/profile.html"));
+
+      // let html = template(htmlTemplate);
+      // let result = html({ style: this.context.asAbsolutePath("assets/style.css"), user: 'Architect' });
+      // let userName = profile["user"];
+      // let totalXp = profile["total_xp"];
+      // let newXp = profile["new_xp"];
+      // let currentLevel = getLevel(totalXp);      
+
+      
       return `
       <link rel="stylesheet" href="file:///${this.context.asAbsolutePath("assets/style.css")}">
       <img width="64px" height="64px" src="file:///${this.context.asAbsolutePath("assets/r2.svg")}">
-      ${getHeader(profile)}
+      ${getHeader(this.context, profile)}
       ${getLanguages(profile["languages"])}      
       `;
 
