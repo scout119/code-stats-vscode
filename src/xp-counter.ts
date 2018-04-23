@@ -13,7 +13,8 @@ import {
   StatusBarAlignment,
   TextDocumentChangeEvent,
   Range,
-  WorkspaceConfiguration
+  WorkspaceConfiguration,
+  ExtensionContext
 } from "vscode";
 import { Pulse } from "./pulse";
 import { CodeStatsAPI } from "./code-stats-api";
@@ -32,7 +33,7 @@ export class XpCounter {
   private UPDATE_DELAY = 10000;
 
 
-  constructor() {
+  constructor(context: ExtensionContext) {
     this.pulse = new Pulse();
 
     /* // print out supported language names
@@ -52,7 +53,7 @@ export class XpCounter {
       this.statusBarItem.command = "code-stats.profile";
     }
 
-    let provider = new ProfileHtmlProvider(this.api);
+    let provider = new ProfileHtmlProvider(context, this.api);
 
     let registration = workspace.registerTextDocumentContentProvider('code-stats', provider);
   

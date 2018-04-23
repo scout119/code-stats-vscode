@@ -3,7 +3,7 @@ import { ExtensionContext } from "vscode";
 import { XpCounter } from "./xp-counter";
 
 export function activate(context: ExtensionContext): void {
-  let controller: XpCounter = new XpCounter();
+  let controller: XpCounter = new XpCounter(context);
   context.subscriptions.push(controller);
 }
 
