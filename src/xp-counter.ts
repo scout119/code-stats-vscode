@@ -6,8 +6,6 @@ import {
   Uri,
   ViewColumn,
   commands,
-  Event,
-  CancellationToken,
   StatusBarItem,
   TextDocument,
   StatusBarAlignment,
@@ -18,7 +16,7 @@ import {
 } from "vscode";
 import { Pulse } from "./pulse";
 import { CodeStatsAPI } from "./code-stats-api";
-import { ProfileHtmlProvider } from "./profileHtmlProvider";
+import { ProfileProvider } from "./profile-provider";
 
 export class XpCounter {
   private combinedDisposable: Disposable;
@@ -53,7 +51,7 @@ export class XpCounter {
       this.statusBarItem.command = "code-stats.profile";
     }
 
-    let provider = new ProfileHtmlProvider(context, this.api);
+    let provider = new ProfileProvider(context, this.api);
 
     let registration = workspace.registerTextDocumentContentProvider('code-stats', provider);
   

@@ -13,7 +13,7 @@ import { CodeStatsAPI } from "./code-stats-api";
 
 import template = require('lodash.template');
 
-export class ProfileHtmlProvider implements TextDocumentContentProvider {
+export class ProfileProvider implements TextDocumentContentProvider {
   onDidChange?: Event<Uri>;
 
   api: CodeStatsAPI;
@@ -41,7 +41,7 @@ export class ProfileHtmlProvider implements TextDocumentContentProvider {
       let curLevelXp = getNextLevelXp(level - 1);
       let nextLevelXp = getNextLevelXp(level);
 
-      let haveXp = (xp-new_xp) - curLevelXp;
+      let haveXp = xp - curLevelXp;
       
       let needXp = nextLevelXp - curLevelXp;
 
@@ -79,6 +79,10 @@ export class ProfileHtmlProvider implements TextDocumentContentProvider {
       profile["style"] = this.context.asAbsolutePath("assets/profile.css");
       profile["level"] = getLevel(profile["total_xp"]);
 
+      let percents = getLevelProgress(profile["total_xp"], profile["new_xp"]);
+
+      profile["progress"] = percents[0];
+      profile["new_progress"] = percents[1];
 
       let langs = getSortedArray(profile, "languages");
       
