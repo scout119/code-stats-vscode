@@ -50,33 +50,32 @@ export class ProfileProvider implements TextDocumentContentProvider {
       return [ xpP, nxpP ];
     }
 
-    function getSortedArray(profile: any, obj: string): any[] {
+    function getSortedArray(obj: any): any[] {
 
-      let langs = [];
-      let languages_object = profile[obj] 
-      for( let lang in languages_object) {
-        let percents = getLevelProgress(languages_object[lang].xps, languages_object[lang].new_xps);
-        langs.push(
+      let items = [];
+
+      for( let prop in obj) {
+        let item = obj[prop];
+        let percents = getLevelProgress(item.xps, item.new_xps);
+        items.push(
           {
-            name: lang,
-            level: getLevel(languages_object[lang].xps),
-            xp: languages_object[lang].xps,
-            new_xp: languages_object[lang].new_xps,
+            name: prop,
+            level: getLevel(item.xps),
+            xp: item.xps,
+            new_xp: item.new_xps,
             progress: percents[0],
             new_progress: percents[1]
           }
         );
       }
-      langs = langs.sort( (a,b) => {return b.xp - a.xp;});
       
-      return langs;
+      return items.sort( (a,b) => {return b.xp - a.xp;});
     }
 
     return this.api.getProfile().then(profile => {
 
       let htmlTemplate = fs.readFileSync(this.context.asAbsolutePath("assets/profile.html.eex"));
-
-      profile["style"] = this.context.asAbsolutePath("assets/profile.css");
+      
       profile["level"] = getLevel(profile["total_xp"]);
 
       let percents = getLevelProgress(profile["total_xp"], profile["new_xp"]);
@@ -84,15 +83,12 @@ export class ProfileProvider implements TextDocumentContentProvider {
       profile["progress"] = percents[0];
       profile["new_progress"] = percents[1];
 
-      let langs = getSortedArray(profile, "languages");
-      
-      let machines = getSortedArray(profile, "machines");
-
-
-      
+      let languages = getSortedArray(profile["languages"]);      
+      let machines = getSortedArray(profile["machines"]);
+    
       let html = template(htmlTemplate);
           
-      return html({profile: profile, languages: langs, machines: machines});
+      return html({profile: profile, languages: languages, machines: machines, style: this.context.asAbsolutePath("assets/profile.css")});
 
     });
   }

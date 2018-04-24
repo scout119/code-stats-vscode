@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="file:///${profile.style}">
+<link rel="stylesheet" href="file:///${style}">
 <h3> ${profile.user} Level ${profile.level} (${profile.total_xp} XP)
   <% if( profile.new_xp > 0 ) { %>
     <sup>(
@@ -62,5 +62,3 @@
     </div>
     <% } %>
 </div>
-
-<circle cx="60" cy="60" r="50"/>
