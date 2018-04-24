@@ -1,6 +1,40 @@
-<link rel="stylesheet" href="file:///${style}">
-<h3> ${user}'s Profile Level ${level} (${xp} XP)
-    <% if( newxp > 0 ) { %>
-     <sup>(<%= newxp %>)</sup>
+<link rel="stylesheet" href="file:///${profile.style}">
+<h3> ${profile.user} Level ${profile.level} (${profile.total_xp} XP)
+  <% if( profile.new_xp > 0 ) { %>
+    <sup>(
+      <%= profile.new_xp %>)</sup>
     <% } %>
-  </h3>
+</h3>
+<div style="display: block;">
+  <% for( let l in languages) { %>
+    <div class="language">
+      <%= languages[l].name %>
+        <span>
+          <%= languages[l].xp %>
+        </span>
+    </div>
+    <% } %>
+</div>
+<p/>
+<div class="machines">
+  <% for( let m in machines) { %>
+    <div class="machine">
+      <strong>
+        <%= machines[m].name %>
+      </strong>
+      <span>
+        <%= machines[m].xp %>
+      </span>
+
+      <div class="progress">
+        <div class="progress-bar progress-bar-success" style="width:50%">
+          <span class="sr-only">Level progress ${machines[m].progress}%.</span>
+        </div>
+        <div class="progress-bar progress-bar-striped progress-bar-warning" style="width: 7%;">
+          <span class="sr-only">Recent level progress 7%.</span>
+        </div>
+      </div>
+
+    </div>
+    <% } %>
+</div>

@@ -47,45 +47,42 @@ export class ProfileHtmlProvider implements TextDocumentContentProvider {
       return Math.round(haveXp * 100.0 / needXp);
     }
 
-    function getLanguages(languages: any): string {
+    function getSortedArray(profile: any, obj: string): any[] {
 
-      let ret = '';
-      for (let lang in languages) {
-        ret += `<div class="language">${lang}<span style="display:block;">${languages[lang]["xps"]}</span></div>`;
+      let langs = [];
+      let languages_object = profile[obj] 
+      for( let lang in languages_object) {
+        langs.push(
+          {
+            name: lang,
+            xp: languages_object[lang].xps,
+            new_xp: languages_object[lang].new_xps,
+            progress: getLevelProgress(languages_object[lang].xps)
+          }
+        );
       }
-
-      return ret;
+      langs = langs.sort( (a,b) => {return b.xp - a.xp;});
+      
+      return langs;
     }
-
-    function getHeader(context: ExtensionContext, profile: any): string {
-
-      let userName = profile["user"];
-      let totalXp = profile["total_xp"];
-      let newXp = profile["new_xp"];
-      let currentLevel = getLevel(totalXp);
-
-      return `<h3> ${userName}'s Profile Level ${currentLevel} (${totalXp} XP) ${newXp > 0 ? '<sup>(+' + newXp + ')</sup>' : ''}</h3>`;
-    }
-
 
     return this.api.getProfile().then(profile => {
 
-      // let htmlTemplate = fs.readFileSync(this.context.asAbsolutePath("assets/profile.html"));
+      let htmlTemplate = fs.readFileSync(this.context.asAbsolutePath("assets/profile.html"));
 
-      // let html = template(htmlTemplate);
-      // let result = html({ style: this.context.asAbsolutePath("assets/style.css"), user: 'Architect' });
-      // let userName = profile["user"];
-      // let totalXp = profile["total_xp"];
-      // let newXp = profile["new_xp"];
-      // let currentLevel = getLevel(totalXp);      
+      profile["style"] = this.context.asAbsolutePath("assets/profile.css");
+      profile["level"] = getLevel(profile["total_xp"]);
+
+
+      let langs = getSortedArray(profile, "languages");
+      
+      let machines = getSortedArray(profile, "machines");
+
 
       
-      return `
-      <link rel="stylesheet" href="file:///${this.context.asAbsolutePath("assets/style.css")}">
-      <img width="64px" height="64px" src="file:///${this.context.asAbsolutePath("assets/r2.svg")}">
-      ${getHeader(this.context, profile)}
-      ${getLanguages(profile["languages"])}      
-      `;
+      let html = template(htmlTemplate);
+          
+      return html({profile: profile, languages: langs, machines: machines});
 
     });
   }
