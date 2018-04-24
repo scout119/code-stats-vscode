@@ -1,26 +1,11 @@
-/* .language {
-  float: left;
-  width: 5rem;
-  height: 5rem;
-  padding-top: 1.5rem;
-  text-align: center;        
-  margin: 0.1rem;
-  border-radius: 50%;              
-  font-size: 0.9em;      
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: solid 2px; 
-} */
-
-.circle-progress {
+.language-progress {
   float: left;
   position: relative;
   width: 6rem;
   height: 6rem;
 }
 
-.circle-progress .tooltiptext {
+.language-progress .tooltiptext {
   visibility: hidden;
   width: 120px;
   background-color: #ddca7e;
@@ -34,13 +19,11 @@
   z-index: 1;
 }
 
-.circle-progress:hover .tooltiptext {
+.language-progress:hover .tooltiptext {
   visibility: visible;
 }
 
-
-
-svg {
+.language-progress svg {
   position: absolute;
   top: 0;
   left: 0;
@@ -49,12 +32,21 @@ svg {
   transform: rotate(-90deg);
 }
 
-/* .circle-progress svg {
-  transform: rotate(-90deg);
-} */
-
-.circle-progress svg circle {
+circle {
+  stroke-width: 5;
   fill:transparent;
+}
+
+circle.backg {
+  stroke: #424242;
+}
+
+circle.newxp {
+  stroke: #ddca7e;
+}
+
+circle.oldxp {
+  stroke: #318245;
 }
 
 .language {
@@ -70,13 +62,11 @@ svg {
 }
 
 .vscode-dark .language {
-  /* background: rgb(37,37,38); */
   color: #ddca7e;
   border-color: #424242;
 }
 
-.vscode-light .language {
-  background: gray;
+.vscode-light .language {  
   color: blue;
   border-color: black;
 }

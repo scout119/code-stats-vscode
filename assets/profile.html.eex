@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="file:///${style}">
 <h3> ${profile.user} Level ${profile.level} (${profile.total_xp} XP)
   <% if( profile.new_xp > 0 ) { %>
-    <sup>(
+    <sup>(+
       <%= profile.new_xp %>)</sup>
     <% } %>
 </h3>
@@ -15,9 +15,9 @@
   </div>
 </div>
 
-<div style="clear: both;">
+<div class="languages">
   <% for( let l in languages) { %>
-    <div class="circle-progress">
+    <div class="language-progress">
       <div class="language">
         <%= languages[l].name %>
           <span>
@@ -25,13 +25,16 @@
           </span>
       </div>
       <span class="tooltiptext">
-        Total XP: <strong><%=languages[l].xp %></strong> <br/>
-        New XP: <%=languages[l].new_xp%>
-      </span>      
+        <strong><%=languages[l].xp %> XP</strong>        
+        <% if( languages[l].new_xp > 0 ) { %>
+          <sup>(+
+            <%= languages[l].new_xp %>)</sup>
+        <% } %>        
+      </span>
       <svg viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="45" stroke="#424242" stroke-width="5"></circle>
-        <circle cx="50" cy="50" r="45" stroke="#ddca7e" stroke-width="5" stroke-dasharray="282.6" stroke-dashoffset='${ ((100-languages[l].progress) * 282.6 / 100) }'></circle>
-        <circle cx="50" cy="50" r="45" stroke="#318245" stroke-width="5" stroke-dasharray="282.6" stroke-dashoffset='${ ((100-languages[l].progress + languages[l].new_progress) * 282.6 / 100) }'></circle>
+        <circle class="backg" cx="50" cy="50" r="45" ></circle>
+        <circle class="newxp" cx="50" cy="50" r="45" stroke-dasharray="282.6" stroke-dashoffset='${ ((100-languages[l].progress) * 282.6 / 100) }'></circle>
+        <circle class="oldxp" cx="50" cy="50" r="45" stroke-dasharray="282.6" stroke-dashoffset='${ ((100-languages[l].progress + languages[l].new_progress) * 282.6 / 100) }'></circle>
       </svg>
     </div>
     <% } %>
@@ -48,8 +51,11 @@
       </span>
       <span class="xp">
         (<%= machines[m].xp %> XP)
+       <% if( machines[m].new_xp > 0 ) { %>
+        <sup>(+
+          <%= machines[m].new_xp %>)</sup>
+      <% } %>
       </span>
-
       <div class="progress">
         <div class="progress-bar progress-bar-success" style='width:${machines[m].progress}%;'>
           <span class="sr-only">Level progress ${machines[m].progress - machines[m].new_progress}%.</span>
