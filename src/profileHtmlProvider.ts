@@ -36,15 +36,18 @@ export class ProfileHtmlProvider implements TextDocumentContentProvider {
       return Math.pow(Math.ceil((level + 1) / LEVEL_FACTOR), 2);
     }
 
-    function getLevelProgress(xp: number): number {
+    function getLevelProgress(xp: number, new_xp: number): number[] {
       let level = getLevel(xp);
       let curLevelXp = getNextLevelXp(level - 1);
       let nextLevelXp = getNextLevelXp(level);
 
-      let haveXp = xp - curLevelXp;
+      let haveXp = (xp-new_xp) - curLevelXp;
+      
       let needXp = nextLevelXp - curLevelXp;
 
-      return Math.round(haveXp * 100.0 / needXp);
+      let xpP = Math.round(haveXp * 100.0 / needXp);
+      let nxpP = Math.round(new_xp * 100.0 / needXp);
+      return [ xpP, nxpP ];
     }
 
     function getSortedArray(profile: any, obj: string): any[] {
@@ -52,12 +55,15 @@ export class ProfileHtmlProvider implements TextDocumentContentProvider {
       let langs = [];
       let languages_object = profile[obj] 
       for( let lang in languages_object) {
+        let percents = getLevelProgress(languages_object[lang].xps, languages_object[lang].new_xps);
         langs.push(
           {
             name: lang,
+            level: getLevel(languages_object[lang].xps),
             xp: languages_object[lang].xps,
             new_xp: languages_object[lang].new_xps,
-            progress: getLevelProgress(languages_object[lang].xps)
+            progress: percents[0],
+            new_progress: percents[1]
           }
         );
       }
@@ -68,7 +74,7 @@ export class ProfileHtmlProvider implements TextDocumentContentProvider {
 
     return this.api.getProfile().then(profile => {
 
-      let htmlTemplate = fs.readFileSync(this.context.asAbsolutePath("assets/profile.html"));
+      let htmlTemplate = fs.readFileSync(this.context.asAbsolutePath("assets/profile.html.eex"));
 
       profile["style"] = this.context.asAbsolutePath("assets/profile.css");
       profile["level"] = getLevel(profile["total_xp"]);

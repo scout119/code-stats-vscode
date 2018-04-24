@@ -6,7 +6,7 @@ export class CodeStatsAPI {
   private API_KEY = null;
   private USER_NAME = null;
   private UPDATE_URL = "https://codestats.net/api/";
-  //private PROFILE_URL = "https://codestats.net/api/users";
+  
   private axios = null;
 
   constructor(apiKey: string, apiURL: string, userName: string) {
@@ -66,8 +66,7 @@ export class CodeStatsAPI {
   public getProfile(): axios.AxiosPromise {
     return this.axios
       .get(`users/${this.USER_NAME}`)
-      .then(response => {
-        console.log("Got Response\n");
+      .then(response => {        
         return response.data;
       })
       .catch(error => {
