@@ -1,14 +1,6 @@
 
-import {
-  Uri,
-  Event,
-  CancellationToken,
-  TextDocumentContentProvider,
-  ExtensionContext
-} from "vscode";
-import * as path from "path";
 import * as fs from 'fs';
-
+import { CancellationToken, Event, ExtensionContext, TextDocumentContentProvider, Uri } from "vscode";
 import { CodeStatsAPI } from "./code-stats-api";
 
 import template = require('lodash.template');

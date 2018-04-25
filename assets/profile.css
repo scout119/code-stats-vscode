@@ -1,3 +1,25 @@
+/* Dark theme color palette */
+.vscode-dark {
+  --color-language: #ddca7e;  
+  --color-primary: #dcc97e;
+  --color-secondary: #00ca7e;
+}
+
+/* Light theme color palette */
+.vscode-light {
+  --color-language: blue;
+  --color-primary: #00ca7e;
+} 
+
+h3 {
+  text-align: center;
+}
+
+sup {
+  top: -.5em;
+  font-size: 75%;
+}
+
 .language-progress {
   float: left;
   position: relative;
@@ -8,7 +30,7 @@
 .language-progress .tooltiptext {
   visibility: hidden;
   width: 120px;
-  background-color: #ddca7e;
+  background-color: var(--color-primary);
   color: black;
   text-align: center;
   border-radius: 6px;
@@ -53,35 +75,13 @@ circle.oldxp {
   padding-top: 2rem;
   margin: auto;
   text-align: center;
+  color: var(--color-language);
 }
 
 .language span {
   display: block;
   font-weight: bold;
   font-size: 1.1em;
-}
-
-.vscode-dark .language {
-  color: #ddca7e;
-  border-color: #424242;
-}
-
-.vscode-light .language {  
-  color: blue;
-  border-color: black;
-}
-
-sup {
-  top: -.5em;
-  font-size: 75%;
-}
-
-h3 {
-  text-align: center;
-}
-
-img {
-  float: left;  
 }
 
 .machines {
