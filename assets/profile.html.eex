@@ -19,7 +19,7 @@
         <span class="tooltiptext">
           <strong><%=languages[l].xp %> xp</strong>        
           <% if( languages[l].new_xp > 0 ) { %>
-            <sup style="color:black">+<%= languages[l].new_xp %></sup>
+            <sup>+<%= languages[l].new_xp %></sup>
           <% } %>        
         </span>
         <svg viewBox="0 0 100 100">

@@ -10,6 +10,11 @@ export class CodeStatsAPI {
   private axios = null;
 
   constructor(apiKey: string, apiURL: string, userName: string) {
+    this.updateSettings(apiKey, apiURL, userName);
+  }
+
+  public updateSettings( apiKey: string, apiURL: string, userName: string) {
+
     this.API_KEY = apiKey;
     this.UPDATE_URL = apiURL;
     this.USER_NAME = userName;
@@ -71,6 +76,7 @@ export class CodeStatsAPI {
       })
       .catch(error => {
         console.log(error);
+        return null;
       });
   }
 }

@@ -18,6 +18,9 @@ export class ProfileProvider implements TextDocumentContentProvider {
 
   provideTextDocumentContent(uri: Uri, token: CancellationToken): string | Thenable<string> {
 
+    if( token.isCancellationRequested )
+      return;
+
     const LEVEL_FACTOR = 0.025;
 
     function getLevel(xp: number): number {
@@ -65,6 +68,11 @@ export class ProfileProvider implements TextDocumentContentProvider {
     }
 
     return this.api.getProfile().then(profile => {
+
+      if( profile === null )
+      {
+        return `<h1>Can't fetch profile. Please try again later</h1> Make sure <strong>codestats.username</strong> setting is set to correct user name.`;
+      }
 
       let htmlTemplate = fs.readFileSync(this.context.asAbsolutePath("assets/profile.html.eex"));
       

@@ -51,17 +51,26 @@ export class XpCounter {
       this.statusBarItem.command = "code-stats.profile";
     }
 
-    let provider = new ProfileProvider(context, this.api);
-
-    let registration = workspace.registerTextDocumentContentProvider('code-stats', provider);
-  
-    subscriptions.push(registration);
-
-    let previewUri = Uri.parse('code-stats://profile')
-
+    subscriptions.push(workspace.registerTextDocumentContentProvider('code-stats', new ProfileProvider(context, this.api)));
+ 
     subscriptions.push(commands.registerCommand("code-stats.profile", () => {
-      commands.executeCommand('vscode.previewHtml', previewUri, ViewColumn.Two, 'Code::Stats Profile');
-    } ) );
+
+      let config: WorkspaceConfiguration = workspace.getConfiguration(
+        "codestats"
+      );
+
+      if (!config) {
+        window.showErrorMessage('codestats.username configuration setting is missing');
+        return;
+      }
+  
+      if( config.get("username") === '' ){
+        window.showErrorMessage('codestats.username configuration setting is missing');
+        return;
+      }
+
+      commands.executeCommand('vscode.previewHtml',  Uri.parse('code-stats://profile'), ViewColumn.Two, 'Code::Stats Profile');
+    }));
     
     workspace.onDidChangeTextDocument(
       this.onTextDocumentChanged,
@@ -145,6 +154,9 @@ export class XpCounter {
       `
     );
 
-    this.api = new CodeStatsAPI(apiKey, apiURL, userName);
+    if( this.api != null )
+      this.api.updateSettings(apiKey, apiURL, userName);
+    else
+      this.api = new CodeStatsAPI(apiKey,apiURL,userName);
   }
 }
